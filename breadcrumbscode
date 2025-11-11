@@ -1,0 +1,161 @@
+# nextjscode
+
+'use client';
+
+import { ChevronRightIcon, HomeIcon, MoreHorizontal } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useMemo, useCallback } from 'react';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+
+import { cn } from '@/lib/utils';
+
+export default function BreadcrumbGenerator() {
+  const pathname = usePathname();
+
+  // Split pathname into usable segments (e.g. /dashboard/users/edit → ['dashboard', 'users', 'edit'])
+  const segments = useMemo(() => pathname.split('/').filter(Boolean), [pathname]);
+
+  const buildHref = useCallback(
+    (index: number) => `/${segments.slice(0, index + 1).join('/')}`,
+    [segments]
+  );
+
+  const formatSegment = (segment: string) =>
+    segment.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
+
+  // Full breadcrumb view (desktop)
+  const renderFullSegments = useMemo(
+    () =>
+      segments.map((segment, index) => {
+        const isLast = index === segments.length - 1;
+
+        return (
+          <BreadcrumbItem key={buildHref(index)} className="flex items-center">
+            {index !== 0 && <BreadcrumbSeparator />}
+            {isLast ? (
+              <BreadcrumbPage className="truncate max-w-[120px] sm:max-w-none text-muted-foreground">
+                {formatSegment(segment)}
+              </BreadcrumbPage>
+            ) : (
+              <BreadcrumbLink asChild>
+                <Link
+                  href={buildHref(index)}
+                  className="flex items-center text-foreground hover:text-primary transition-colors truncate max-w-[100px] sm:max-w-none"
+                >
+                  {formatSegment(segment)}
+                </Link>
+              </BreadcrumbLink>
+            )}
+          </BreadcrumbItem>
+        );
+      }),
+    [segments, buildHref]
+  );
+
+  // Collapsed breadcrumb for small screens (shows first, last, and popover for middle)
+  const renderCollapsedSegments = useMemo(() => {
+    if (segments.length <= 2) return renderFullSegments;
+
+    const firstSegment = segments[0];
+    const lastSegment = segments[segments.length - 1];
+    const middleSegments = segments.slice(1, -1);
+
+    return (
+      <>
+        {/* First */}
+        <BreadcrumbItem key={buildHref(0)} className="flex items-center">
+          <BreadcrumbSeparator />
+          <BreadcrumbLink asChild>
+            <Link
+              href={buildHref(0)}
+              className="flex items-center text-foreground hover:text-primary transition-colors truncate max-w-[100px]"
+            >
+              {formatSegment(firstSegment)}
+            </Link>
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+
+        {/* Collapsed middle */}
+        {middleSegments.length > 0 && (
+          <BreadcrumbItem key="collapsed" className="flex items-center">
+            <BreadcrumbSeparator />
+            <Popover>
+              <PopoverTrigger asChild>
+                <button
+                  type="button"
+                  aria-label="Show hidden breadcrumb segments"
+                  className="flex items-center gap-1 rounded px-1 py-0.5 text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+                >
+                  <MoreHorizontal size={16} />
+                </button>
+              </PopoverTrigger>
+              <PopoverContent align="start" side="bottom" className="flex flex-col gap-1 p-2 w-44">
+                {middleSegments.map((segment, idx) => (
+                  <Link
+                    key={buildHref(idx + 1)}
+                    href={buildHref(idx + 1)}
+                    className="rounded px-2 py-1 text-sm hover:bg-accent hover:text-accent-foreground transition-colors"
+                  >
+                    {formatSegment(segment)}
+                  </Link>
+                ))}
+              </PopoverContent>
+            </Popover>
+          </BreadcrumbItem>
+        )}
+
+        {/* Last */}
+        <BreadcrumbItem key={buildHref(segments.length - 1)} className="flex items-center">
+          <BreadcrumbSeparator />
+          <BreadcrumbPage className="truncate max-w-[120px] sm:max-w-none text-muted-foreground">
+            {formatSegment(lastSegment)}
+          </BreadcrumbPage>
+        </BreadcrumbItem>
+      </>
+    );
+  }, [segments, buildHref, renderFullSegments]);
+
+  return (
+    <div className="w-full overflow-hidden hidden md:flex">
+      <Breadcrumb>
+        <BreadcrumbList className="mt-3 flex w-full min-w-0 flex-nowrap items-center gap-1 rounded-md border bg-white px-3 py-2 shadow-sm sm:flex-wrap">
+          {/* Home */}
+          <BreadcrumbItem className="flex-shrink-0">
+            <BreadcrumbLink asChild>
+              <Link
+                href="/"
+                aria-label="Go to home page"
+                className="flex items-center gap-1 text-foreground hover:text-primary transition-colors"
+              >
+                <HomeIcon size={16} aria-hidden="true" />
+                <span className="hidden lg:flex items-center">
+                  Home
+                  <ChevronRightIcon size={16} className="ml-1" />
+                </span>
+              </Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+
+          {/* Collapsed (mobile/tablet) */}
+          <div className="flex min-w-0 flex-1 items-center overflow-hidden lg:hidden">
+            {renderCollapsedSegments}
+          </div>
+
+          {/* Full (desktop) */}
+          <div className="hidden lg:flex min-w-0 flex-1 items-center overflow-hidden">
+            {renderFullSegments}
+          </div>
+        </BreadcrumbList>
+      </Breadcrumb>
+    </div>
+  );
+}
