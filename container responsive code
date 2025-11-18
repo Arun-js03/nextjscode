@@ -1,0 +1,91 @@
+@layer utilities {
+  .container {
+    margin-inline: auto;
+    width: 100%;
+    padding-inline: 1rem; /* consistent horizontal padding */
+    box-sizing: border-box;
+  }
+
+  /* Extra small devices (320px - 359px) */
+  @media (min-width: 320px) {
+    .container {
+      max-width: 280px;
+      padding-inline: 0px;
+    }
+  }
+  /* Small phones (360px - 424px) */
+  @media (min-width: 360px) {
+    .container {
+      max-width: 340px;
+    }
+  }
+  /* Large phones (425px - 599px) */
+  @media (min-width: 425px) {
+    .container {
+      max-width: 400px;
+    }
+  }
+  /* Small tablets (600px - 767px) */
+  @media (min-width: 600px) {
+    .container {
+      max-width: 600px;
+    }
+  }
+  /* Medium tablets (768px - 899px) */
+  @media (min-width: 768px) {
+    .container {
+      max-width: 720px;
+    }
+  }
+  /* Large tablets (900px - 1023px) */
+  @media (min-width: 900px) {
+    .container {
+      max-width: 840px;
+    }
+  }
+  /* Small laptops (1024px - 1279px) */
+  @media (min-width: 1024px) {
+    .container {
+      max-width: 960px;
+    }
+  }
+  
+  /* Medium laptops (1100px - 1300px) */
+  @media (min-width: 1100px) {
+    .container {
+      max-width: 1200px;
+    }
+  }
+  
+  /* Medium laptops (1300px - 1439px) */
+  @media (min-width: 1300px) {
+    .container {
+      max-width: 1280px;
+    }
+  }
+
+  /* Large desktops (1440px - 1535px) */
+  @media (min-width: 1440px) {
+    .container {
+      max-width: 1360px;
+    }
+  }
+  /* Extra-large desktops (1536px - 1919px) */
+  @media (min-width: 1536px) {
+    .container {
+      max-width: 1440px;
+    }
+  }
+  /* Ultra-wide screens (1920px - 2559px) */
+  @media (min-width: 1920px) {
+    .container {
+      max-width: 1720px;
+    }
+  }
+  /* Extremely wide screens (2560px+) */
+  @media (min-width: 2560px) {
+    .container {
+      max-width: 1920px;
+    }
+  }
+}
