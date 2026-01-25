@@ -1,0 +1,124 @@
+🚀 Frontend Deployment Documentation
+
+This document explains the step-by-step process to deploy the frontend application on the server using SSH, Git, Bun, and PM2.
+
+🔐 Server Access
+
+1. Connect to the server via SSH:
+
+ssh root@<SERVER_IP>
+
+---------------------------------------------------
+  
+2. Enter:
+
+Username
+
+Password
+
+---------------------------------------------------
+
+📁 Navigate to Project Directory
+
+3. List files to verify location:
+
+ls
+
+---------------------------------------------------
+
+4. Move to the required directory:
+
+cd <project-folder>
+
+---------------------------------------------------
+
+5. Navigate to the correct frontend project:
+
+cd <frontend-project-name>
+
+---------------------------------------------------
+
+🔄 Pull Latest Code from Git
+
+Pull latest changes:
+
+6. git pull
+
+---------------------------------------------------
+
+7. If prompted, enter:
+
+Git username
+
+Git password / Personal Access Token
+
+---------------------------------------------------
+
+🏷️ Checkout Specific Version (Tag)
+
+8. Fetch all branches and tags (recommended):
+
+git fetch --all --tags
+
+---------------------------------------------------
+  
+9. Checkout the required version:
+
+git checkout origin/v0.0.3
+
+---------------------------------------------------
+
+
+10. Switch to the tag:
+
+git checkout v0.0.3
+
+---------------------------------------------------
+
+11. Verify the current version:
+
+git status
+
+---------------------------------------------------
+
+📦 Install Dependencies (Bun)
+
+12. Ensure Bun is installed:
+
+bun --version
+
+---------------------------------------------------
+
+
+13. Install dependencies:
+
+bun install
+
+---------------------------------------------------
+
+🏗️ Build the Project
+
+14. Build the frontend:
+
+bun run build
+
+---------------------------------------------------
+
+⚙️ PM2 Process Management
+
+15. List running PM2 processes:
+
+pm2 ls
+
+---------------------------------------------------
+
+16. Restart the frontend service
+(example: PM2 process ID = 13)
+
+pm2 restart 13
+
+---------------------------------------------------
+  
+17. Save PM2 process state:
+
+pm2 save
