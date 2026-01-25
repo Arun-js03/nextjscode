@@ -1,1 +1,233 @@
 
+🔹 STEP 1: Correct Rendering Type (Most Important)
+
+Next.js power = SSR + SSG
+
+✅ Use SSG (Static Generation)
+
+Best for:
+
+Blog
+
+Landing pages
+
+Marketing pages
+
+export async function generateStaticParams() {
+  return [...]
+}
+
+✅ Use SSR
+
+Best for:
+
+Dashboard
+
+Auth based pages
+
+export async function generateMetadata() {}
+
+
+👉 Google bots SSR/SSG content ah easy-ah crawl pannum
+
+
+-----------------------------------------------------------------------------------------
+
+🔹 STEP 2: SEO Metadata (Must Do)
+App Router (Next 13+)
+export const metadata = {
+  title: "Best Interior Design in Chennai",
+  description: "Top interior designers with affordable pricing",
+  keywords: ["interior design", "chennai"],
+  openGraph: {
+    title: "Interior Design",
+    images: ["/og-image.jpg"],
+  },
+};
+
+
+✅ Every page unique title & description
+
+-----------------------------------------------------------------------------------------
+
+🔹 STEP 3: Semantic HTML (Google Loves This)
+
+❌ Bad:
+
+<div>Title</div>
+
+
+✅ Good:
+
+<h1>Best Interior Design Company</h1>
+<section>
+  <article>
+
+
+Rules:
+
+Only one <h1> per page
+
+Use <header> <main> <footer>
+
+-----------------------------------------------------------------------------------------
+
+🔹 STEP 4: Image Optimization (Big Performance Boost)
+❌ Wrong
+<img src="/banner.jpg" />
+
+✅ Correct
+import Image from "next/image";
+
+<Image
+  src="/banner.jpg"
+  alt="Luxury interior design"
+  width={1200}
+  height={600}
+  priority
+/>
+
+
+✔️ Lazy loading
+✔️ Auto resize
+✔️ Better LCP score
+
+-----------------------------------------------------------------------------------------
+
+🔹 STEP 5: Font Optimization
+import { Inter } from "next/font/google";
+
+const inter = Inter({
+  subsets: ["latin"],
+  display: "swap",
+});
+
+
+🚀 No layout shift
+🚀 Faster load
+
+-----------------------------------------------------------------------------------------
+
+🔹 STEP 6: Improve Core Web Vitals
+Target:
+
+LCP < 2.5s
+
+CLS < 0.1
+
+INP < 200ms
+
+Fixes:
+
+✅ Avoid layout jumps
+✅ Skeleton loaders
+✅ No heavy animations on first load
+
+-----------------------------------------------------------------------------------------
+
+
+🔹 STEP 7: Reduce JS Bundle Size
+
+Use dynamic import
+
+const HeavyComponent = dynamic(() => import("./Heavy"), {
+  ssr: false,
+});
+
+
+Remove unused libraries
+
+Avoid use client unless needed
+
+
+-----------------------------------------------------------------------------------------
+
+🔹 STEP 8: URL & Routing SEO
+
+❌ /page?id=12
+✅ /interior-design/chennai
+
+Use:
+
+/app/interior-design/[city]/page.tsx
+
+-----------------------------------------------------------------------------------------
+
+🔹 STEP 9: Sitemap + Robots (Very Important)
+app/sitemap.ts
+export default function sitemap() {
+  return [
+    {
+      url: "https://example.com",
+      lastModified: new Date(),
+    },
+  ];
+}
+
+robots.ts
+export default {
+  rules: {
+    userAgent: "*",
+    allow: "/",
+  },
+};
+
+-----------------------------------------------------------------------------------------
+
+🔹 STEP 10: Structured Data (Advanced SEO ⭐)
+<script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      name: "Interior Design Company",
+    }),
+  }}
+/>
+
+
+Boosts:
+
+Rich snippets
+
+Google trust
+
+-----------------------------------------------------------------------------------------
+
+🔹 STEP 11: Performance Tools
+
+Use these regularly:
+
+Lighthouse
+
+PageSpeed Insights
+
+Search Console
+
+-----------------------------------------------------------------------------------------
+
+🔹 STEP 12: Hosting & CDN
+
+Best:
+
+Vercel ⭐
+
+Enable:
+
+Edge caching
+
+ISR
+
+-----------------------------------------------------------------------------------------
+
+🔥 FINAL SEO CHECKLIST
+
+✔️ SSR / SSG
+✔️ Metadata per page
+✔️ Image optimization
+✔️ Fast fonts
+✔️ No CLS
+✔️ Clean URLs
+✔️ Sitemap
+✔️ Structured data
